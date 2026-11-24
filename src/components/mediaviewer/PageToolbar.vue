@@ -26,7 +26,7 @@
           @click="invokeToggleDisplayFilter"
         />
         <q-btn
-          v-if="isPrintableImage(item.processed)"
+          v-if="item.media_type === 'image' && isPrintableImage(item.processed)"
           stack
           no-caps
           rounded
@@ -37,7 +37,7 @@
           @click="backgroundDialog = true"
         />
         <q-btn
-          v-if="isPrintableImage(item.processed)"
+          v-if="(item.media_type === 'image' || item.media_type === 'collage') && isPrintableImage(item.processed)"
           stack
           no-caps
           rounded

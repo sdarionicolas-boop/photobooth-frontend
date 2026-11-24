@@ -213,8 +213,7 @@ const onBtnAdminClick = () => {
   }
 }
 const invokeAction = (trigger: TriggerSchema) => {
-  mainStore.lastAction = trigger // save last action so it can be started from itempresenter directly again.
-  remoteProcedureCall(`/api/${trigger.action}/${trigger.config_index}`)
+  mainStore.startAction(trigger)
 }
 const stopRecordingVideo = () => {
   remoteProcedureCall('/api/processing/next')

@@ -312,6 +312,6 @@ const doShareActionWithParameters = async (config_index: number, input_data: unk
   }
 }
 const invokeAction = (trigger: TriggerSchema) => {
-  remoteProcedureCall(`/api/${trigger.action}/${trigger.config_index}`)
+  mainStore.startAction(trigger)
 }
 </script>

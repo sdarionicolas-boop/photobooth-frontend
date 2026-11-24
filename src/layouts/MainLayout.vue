@@ -25,6 +25,13 @@
         :timeout-ms="configurationStore.configuration.uisettings.show_automatic_slideshow_timeout * 1000"
         :warning-message="$t('MSG_WARN_BEFORE_AUTO_SLIDESHOW')"
       ></RouteAfterTimeout>
+
+      <!-- the guest chooses the background before a single image is captured -->
+      <BackgroundPicker
+        :model-value="mainStore.pendingBackgroundTrigger !== null"
+        @update:model-value="(open: boolean) => !open && mainStore.cancelPendingAction()"
+        @select="mainStore.startPendingActionWithBackground"
+      ></BackgroundPicker>
     </q-page-container>
   </q-layout>
 </template>
@@ -36,9 +43,12 @@ import { useStateStore } from '@/stores/state-store'
 import { useMediacollectionStore } from '@/stores/mediacollection-store'
 import { useConfigurationStore } from '@/stores/configuration-store'
 import { remoteProcedureCall } from '@/util/fetch_api.js'
+import { useMainStore } from '@/stores/main-store'
 import ReturnButton from '@/components/ReturnButton.vue'
 import RouteAfterTimeout from '@/components/RouteAfterTimeout.vue'
+import BackgroundPicker from '@/components/mediaviewer/BackgroundPicker.vue'
 
+const mainStore = useMainStore()
 const stateStore = useStateStore()
 const router = useRouter()
 const route = useRoute()

@@ -43,7 +43,9 @@ interface Background {
   url: string
 }
 
-const props = defineProps<{ id: string }>()
+// with an id the chosen background is applied to that existing picture, without it only the choice is reported (before capture)
+const props = defineProps<{ id?: string }>()
+const emit = defineEmits<{ select: [file: string | null] }>()
 const open = defineModel<boolean>({ default: false })
 
 const { t } = useI18n()
@@ -70,6 +72,11 @@ watch(open, (isOpen) => {
 
 async function choose(file: string | null) {
   if (busy.value) return
+  if (!props.id) {
+    emit('select', file)
+    open.value = false
+    return
+  }
   busy.value = true
   try {
     const query = file ? `?file=${encodeURIComponent(file)}` : ''
