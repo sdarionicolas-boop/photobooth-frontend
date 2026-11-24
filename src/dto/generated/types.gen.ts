@@ -1136,6 +1136,12 @@ export type GroupMediaprocessing = {
      */
     remove_background_model: 'modnet' | 'u2netp' | 'u2net';
     /**
+     * Remove Background Cleanup
+     *
+     * Tidy up the cutout after the AI removed the background: drops small floating specks, fills small holes (for example in the hair) and softens the edge. Costs a few milliseconds per picture.
+     */
+    remove_background_cleanup: boolean;
+    /**
      * Fileformat Animations
      *
      * Format in which animations are stored. WebP is recommended nowadays. AVIF is a newer format, encodes fast, produces smallest files but is not yet broadly compatible. GIF is lower quality (max 256 colors), more compute intensive to encode but offers best compatibility. GIF is deprecated here.
