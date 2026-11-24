@@ -1214,6 +1214,18 @@ export type GroupShare = {
  */
 export type GroupUiSettings = {
     /**
+     * Frontpage Title
+     *
+     * Event title shown big on the first screen, for example 'MIS XV LUCIA♥' or 'Boda de Ana y Luis'. Leave empty to show the frontpage text (below) instead.
+     */
+    FRONTPAGE_TITLE: string;
+    /**
+     * Frontpage Show Date
+     *
+     * Show today's date (dd/mm/yyyy) below the event title.
+     */
+    FRONTPAGE_SHOW_DATE: boolean;
+    /**
      * Primary Color
      *
      * Primary color (e.g. buttons, title bar).
@@ -1306,7 +1318,7 @@ export type GroupUiSettings = {
     /**
      * Frontpage Text
      *
-     * Text/HTML displayed on frontpage.
+     * Text/HTML displayed on frontpage. Use {date} for today's date (dd/mm/yyyy).
      */
     FRONTPAGE_TEXT: string;
     /**

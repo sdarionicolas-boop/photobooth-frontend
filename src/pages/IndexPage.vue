@@ -31,8 +31,16 @@
     </div>
 
     <!-- layer display the front page text -->
+    <!-- event title (plain text typed by the operator in admin > uisettings) with today's date below -->
+    <div v-if="stateStore.isStateIdle && eventTitle" id="frontpage_text">
+      <div class="fixed-center text-center text-white frontpage-event">
+        <div class="frontpage-event-title">{{ eventTitle }}</div>
+        <div v-if="configurationStore.configuration.uisettings.FRONTPAGE_SHOW_DATE" class="frontpage-event-date">{{ today }}</div>
+      </div>
+    </div>
+    <!-- no event title set: free text/HTML as configured -->
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <div v-if="stateStore.isStateIdle" id="frontpage_text" v-html="frontpageHtml"></div>
+    <div v-else-if="stateStore.isStateIdle" id="frontpage_text" v-html="frontpageHtml"></div>
 
     <!-- dialog for approval -->
     <div v-if="stateStore.isStateApproval && stateStore.jobmodel.approval_id">
@@ -133,6 +141,7 @@ onMounted(() => {
   todayTimer = window.setInterval(() => (today.value = formatToday()), 60 * 1000)
 })
 onBeforeUnmount(() => window.clearInterval(todayTimer))
+const eventTitle = computed(() => configurationStore.configuration.uisettings.FRONTPAGE_TITLE?.trim() ?? '')
 const frontpageHtml = computed(() => configurationStore.configuration.uisettings.FRONTPAGE_TEXT.replaceAll('{date}', today.value))
 
 watchDebounced(
@@ -236,4 +245,21 @@ const stopRecordingVideo = () => {
 .action-button-admin-invisible
   opacity: 0.0
   cursor: default
+
+// event title on the first screen
+.frontpage-event
+  width: 92vw
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.6)
+
+.frontpage-event-title
+  font-size: clamp(2.5rem, 10vw, 7rem)
+  font-weight: 800
+  line-height: 1.1
+  overflow-wrap: anywhere
+
+.frontpage-event-date
+  font-size: clamp(1.5rem, 5vw, 3.5rem)
+  letter-spacing: 0.2em
+  margin-top: 1.5rem
+  opacity: 0.9
 </style>
