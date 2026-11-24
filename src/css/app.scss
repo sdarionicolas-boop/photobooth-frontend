@@ -116,14 +116,13 @@ body.mirror-theme {
   }
 }
 
+// opacity only: a transform on #frontpage_text would become the containing block of the fixed-center text inside
 @keyframes mirror-pulse {
   0%,
   100% {
-    opacity: 0.55;
-    transform: scale(0.98);
+    opacity: 0.6;
   }
   50% {
     opacity: 1;
-    transform: scale(1);
   }
 }

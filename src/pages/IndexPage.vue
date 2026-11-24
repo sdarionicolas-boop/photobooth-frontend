@@ -32,7 +32,7 @@
 
     <!-- layer display the front page text -->
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <div v-if="stateStore.isStateIdle" id="frontpage_text" v-html="configurationStore.configuration.uisettings.FRONTPAGE_TEXT"></div>
+    <div v-if="stateStore.isStateIdle" id="frontpage_text" v-html="frontpageHtml"></div>
 
     <!-- dialog for approval -->
     <div v-if="stateStore.isStateApproval && stateStore.jobmodel.approval_id">
@@ -105,7 +105,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { watchDebounced, refThrottled } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { remoteProcedureCall } from '@/util/fetch_api.js'
 import { useMainStore } from '@/stores/main-store'
 import { useStateStore } from '@/stores/state-store'
@@ -123,6 +123,17 @@ const stateStore = useStateStore()
 const configurationStore = useConfigurationStore()
 const router = useRouter()
 const btnAdminClickCounter = ref(0)
+
+// {date} in the frontpage text is replaced by today's date (dd/mm/yyyy). Refreshed every minute so the
+// kiosk shows the right day after midnight without a reload.
+const formatToday = () => new Date().toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+const today = ref(formatToday())
+let todayTimer: number | undefined
+onMounted(() => {
+  todayTimer = window.setInterval(() => (today.value = formatToday()), 60 * 1000)
+})
+onBeforeUnmount(() => window.clearInterval(todayTimer))
+const frontpageHtml = computed(() => configurationStore.configuration.uisettings.FRONTPAGE_TEXT.replaceAll('{date}', today.value))
 
 watchDebounced(
   btnAdminClickCounter,
