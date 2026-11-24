@@ -81,3 +81,51 @@ h6 {
     font-size: 1.1rem;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Magic mirror theme (applied by MainLayout while the kiosk is shown).
+// Behind the two-way mirror glass only bright pixels are visible, black is see-through.
+// ---------------------------------------------------------------------------
+body.mirror-theme {
+  background: #000 !important; // quasar's dark/light body background would otherwise win depending on css order
+  color: #fff;
+
+  #frontpage_text {
+    animation: mirror-pulse 3.5s ease-in-out infinite;
+    text-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
+  }
+
+  // big, bright countdown
+  #countdown-circular-progress {
+    color: #fff !important;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+    opacity: 1 !important;
+
+    .q-circular-progress__bar {
+      stroke: #fff;
+    }
+    .q-circular-progress__track {
+      stroke: rgba(255, 255, 255, 0.15);
+    }
+  }
+  #countdown-timer-message {
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  }
+
+  // QR code should be easy to scan from a distance
+  .pb-card-qrcode {
+    width: min(42vw, 420px) !important;
+  }
+}
+
+@keyframes mirror-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

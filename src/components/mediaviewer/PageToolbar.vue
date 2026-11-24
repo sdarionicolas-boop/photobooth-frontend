@@ -26,6 +26,17 @@
           @click="invokeToggleDisplayFilter"
         />
         <q-btn
+          v-if="isPrintableImage(item.processed)"
+          stack
+          no-caps
+          rounded
+          color="primary"
+          class="q-mr-sm action-button action-button-sign col-auto glass-effect"
+          icon="sym_o_draw"
+          :label="$t('BTN_LABEL_GALLERY_SIGN')"
+          @click="router.push({ name: 'signature', params: { id: item.id } })"
+        />
+        <q-btn
           v-if="showDownload"
           stack
           no-caps
@@ -82,12 +93,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { openURL } from 'quasar'
+import { useRouter } from 'vue-router'
 import { default as ShareTriggerButtons, type ShareSchema } from '../ShareTriggerButtons.vue'
 import { default as FrontpageTriggerButtons } from '../FrontpageTriggerButtons.vue'
 import type { TriggerSchema } from '@/types/trigger-schema'
 import type { MediaitemPublic } from '@/dto/generated'
 import { isPrintableImage } from '@/util/media_is_type'
 
+const router = useRouter()
 const confirmDeleteDialog = ref(false)
 
 const props = defineProps<{

@@ -116,10 +116,13 @@ const keyUpHandler = (e: KeyboardEvent) => {
 onMounted(() => {
   console.log('register listener for keyboard input (active only on main layout)')
   window.addEventListener('keyup', keyUpHandler)
+  // magic mirror theme: black pixels are see-through on the mirror glass (see app.scss)
+  document.body.classList.add('mirror-theme')
 })
 
 onUnmounted(() => {
   console.log('unregister listener for keyboard input')
   window.removeEventListener('keyup', keyUpHandler)
+  document.body.classList.remove('mirror-theme')
 })
 </script>
