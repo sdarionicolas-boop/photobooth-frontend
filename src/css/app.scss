@@ -101,11 +101,9 @@ body.mirror-theme {
     text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
     opacity: 1 !important;
 
-    .q-circular-progress__bar {
-      stroke: #fff;
-    }
-    .q-circular-progress__track {
-      stroke: rgba(255, 255, 255, 0.15);
+    // quasar draws the arc with stroke=currentColor and sets the color class (text-secondary) on the circle itself
+    .q-circular-progress__circle {
+      color: #fff !important;
     }
   }
   #countdown-timer-message {
