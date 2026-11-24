@@ -36,7 +36,7 @@ export default defineRouter(function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to): import('vue-router').NavigationGuardReturn => {
     if (to.meta.requiresAdmin && !hasAccessToken()) {
-      return '/auth/login'
+      return { path: '/auth/login', query: { redirect: to.fullPath } }
     }
     return true
   })

@@ -60,10 +60,11 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useLocalStorage } from '@vueuse/core'
 import { login } from '@/util/auth'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import OnScreenKeyboard, { type KeyboardMode } from '@/components/OnScreenKeyboard.vue'
 
 const router = useRouter()
+const route = useRoute()
 const $q = useQuasar()
 const { locale } = useI18n()
 
@@ -80,7 +81,9 @@ const keyboardLayout = computed(() => (String(locale.value).startsWith('de') ? '
 const submit = async () => {
   try {
     await login(user)
-    router.push('/admin')
+    // go where the user wanted to (e.g. /setup), by default to the admin dashboard. only app-internal paths.
+    const redirect = typeof route.query.redirect === 'string' && route.query.redirect.startsWith('/') ? route.query.redirect : '/admin'
+    router.push(redirect)
   } catch (err) {
     console.error(err)
   }

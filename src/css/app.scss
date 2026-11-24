@@ -90,11 +90,6 @@ body.mirror-theme {
   background: #000 !important; // quasar's dark/light body background would otherwise win depending on css order
   color: #fff;
 
-  #frontpage_text {
-    animation: mirror-pulse 3.5s ease-in-out infinite;
-    text-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
-  }
-
   // big, bright countdown
   #countdown-circular-progress {
     color: #fff !important;
@@ -113,16 +108,5 @@ body.mirror-theme {
   // QR code should be easy to scan from a distance
   .pb-card-qrcode {
     width: min(42vw, 420px) !important;
-  }
-}
-
-// opacity only: a transform on #frontpage_text would become the containing block of the fixed-center text inside
-@keyframes mirror-pulse {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
   }
 }

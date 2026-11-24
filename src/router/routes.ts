@@ -21,6 +21,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/GalleryDetailPage.vue'),
         props: { startTimer: true, itemPresenterMode: true },
       },
+      { path: 'choose', component: () => import('@/pages/ChoosePage.vue') },
+      { path: 'setup', meta: { requiresAdmin: true }, component: () => import('@/pages/SetupPage.vue') },
       {
         path: 'signature/:id',
         name: 'signature',

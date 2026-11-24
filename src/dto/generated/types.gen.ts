@@ -1226,6 +1226,30 @@ export type GroupUiSettings = {
      */
     FRONTPAGE_SHOW_DATE: boolean;
     /**
+     * Strip Text
+     *
+     * Text printed on the photo strip ('Tira 2 fotos'). Leave empty to use the event title. The strip follows the text automatically when the configuration is saved.
+     */
+    STRIP_TEXT: string;
+    /**
+     * Countdown Numbers Seconds
+     *
+     * Numbers are shown only for the last seconds of the countdown. Before that the phrases below are displayed.
+     */
+    COUNTDOWN_NUMBERS_SECONDS: number;
+    /**
+     * Countdown Phrases First
+     *
+     * Phrases shown (one after the other) during the countdown before the first photo, until the numbers start.
+     */
+    COUNTDOWN_PHRASES_FIRST: Array<string>;
+    /**
+     * Countdown Phrases Next
+     *
+     * Phrases shown during the countdown before the second and following photos (strips and collages).
+     */
+    COUNTDOWN_PHRASES_NEXT: Array<string>;
+    /**
      * Primary Color
      *
      * Primary color (e.g. buttons, title bar).
