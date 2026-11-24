@@ -31,6 +31,17 @@
           no-caps
           rounded
           color="primary"
+          class="q-mr-sm action-button action-button-background col-auto glass-effect"
+          icon="sym_o_wallpaper"
+          :label="$t('BTN_LABEL_GALLERY_BACKGROUND')"
+          @click="backgroundDialog = true"
+        />
+        <q-btn
+          v-if="isPrintableImage(item.processed)"
+          stack
+          no-caps
+          rounded
+          color="primary"
           class="q-mr-sm action-button action-button-sign col-auto glass-effect"
           icon="sym_o_draw"
           :label="$t('BTN_LABEL_GALLERY_SIGN')"
@@ -75,6 +86,7 @@
       </div>
     </div>
   </q-page-sticky>
+  <BackgroundPicker v-if="item" v-model="backgroundDialog" :id="item.id"></BackgroundPicker>
   <q-dialog v-model="confirmDeleteDialog">
     <q-card id="gallery-confirm-delete-dialog" class="q-pa-sm" style="min-width: 350px" flat>
       <q-card-section class="row items-center" style="flex-wrap: nowrap">
@@ -96,12 +108,14 @@ import { openURL } from 'quasar'
 import { useRouter } from 'vue-router'
 import { default as ShareTriggerButtons, type ShareSchema } from '../ShareTriggerButtons.vue'
 import { default as FrontpageTriggerButtons } from '../FrontpageTriggerButtons.vue'
+import BackgroundPicker from './BackgroundPicker.vue'
 import type { TriggerSchema } from '@/types/trigger-schema'
 import type { MediaitemPublic } from '@/dto/generated'
 import { isPrintableImage } from '@/util/media_is_type'
 
 const router = useRouter()
 const confirmDeleteDialog = ref(false)
+const backgroundDialog = ref(false)
 
 const props = defineProps<{
   item: MediaitemPublic
