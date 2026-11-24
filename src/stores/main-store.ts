@@ -35,18 +35,6 @@ function defaultIntervalInformation(): SseEventIntervalInformationRecord {
   }
 }
 
-// actions where the guest chooses the background before the capture
-const BACKGROUND_ACTIONS = ['actions/image', 'actions/collage']
-
-async function hasBackgrounds(): Promise<boolean> {
-  try {
-    const response = await fetch('/api/background/')
-    return response.ok && (await response.json()).length > 0
-  } catch {
-    return false
-  }
-}
-
 export const useMainStore = defineStore('main-store', {
   state: () => ({
     logrecords: [] as object[],
@@ -56,39 +44,16 @@ export const useMainStore = defineStore('main-store', {
 
     lastAction: null as TriggerSchema | null,
 
-    // single image action waiting for the guest to choose a background (see startAction)
-    pendingBackgroundTrigger: null as TriggerSchema | null,
-
     //   /* plugins stats */
     //   plugins: {},
     // },
   }),
   actions: {
-    /**
-     * Start an action (take picture, ...). For single images and collages the guest picks the background first,
-     * if there are backgrounds to choose from. Other actions start right away.
-     */
-    async startAction(trigger: TriggerSchema) {
+    /** Start an action (take picture, ...). */
+    startAction(trigger: TriggerSchema) {
       this.lastAction = trigger // save last action so it can be started from itempresenter directly again.
 
-      if (BACKGROUND_ACTIONS.includes(trigger.action) && (await hasBackgrounds())) {
-        this.pendingBackgroundTrigger = trigger
-        return
-      }
       void remoteProcedureCall(`/api/${trigger.action}/${trigger.config_index}`)
-    },
-
-    /** Continue a pending image or collage action with the background the guest chose (null = no background). */
-    startPendingActionWithBackground(file: string | null) {
-      const trigger = this.pendingBackgroundTrigger
-      this.pendingBackgroundTrigger = null
-      if (!trigger) return
-
-      void remoteProcedureCall(`/api/${trigger.action}/${trigger.config_index}?background=${encodeURIComponent(file ?? '')}`)
-    },
-
-    cancelPendingAction() {
-      this.pendingBackgroundTrigger = null
     },
   },
   getters: {},
